@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2021 11:14:13 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Nomina" table="nomina" catalog="nominas" optimistic-lock="version">
+        <id name="idNomina" type="int">
+            <column name="IdNomina" />
+            <generator class="assigned" />
+        </id>
+        <property name="mes" type="java.lang.Integer">
+            <column name="Mes" />
+        </property>
+        <property name="anio" type="java.lang.Integer">
+            <column name="Anio" />
+        </property>
+        <property name="numeroTrienios" type="java.lang.Integer">
+            <column name="NumeroTrienios" />
+        </property>
+        <property name="importeTrienios" type="java.lang.Integer">
+            <column name="ImporteTrienios" />
+        </property>
+        <property name="importeSalarioMes" type="java.lang.Float">
+            <column name="importeSalarioMes" precision="12" scale="0" />
+        </property>
+        <property name="importeComplementoMes" type="java.lang.Float">
+            <column name="importeComplementoMes" precision="12" scale="0" />
+        </property>
+        <property name="valorProrrateo" type="java.lang.Float">
+            <column name="ValorProrrateo" precision="12" scale="0" />
+        </property>
+        <property name="brutoAnual" type="java.lang.Float">
+            <column name="brutoAnual" precision="12" scale="0" />
+        </property>
+        <property name="irpf" type="java.lang.Float">
+            <column name="IRPF" precision="12" scale="0" />
+        </property>
+        <property name="importeIrpf" type="java.lang.Float">
+            <column name="ImporteIRPF" precision="12" scale="0" />
+        </property>
+        <property name="baseEmpresario" type="java.lang.Float">
+            <column name="BaseEmpresario" precision="12" scale="0" />
+        </property>
+        <property name="seguridadSocialEmpresario" type="java.lang.Float">
+            <column name="SeguridadSocialEmpresario" precision="12" scale="0" />
+        </property>
+        <property name="importeSeguridadSocialEmpresario" type="java.lang.Float">
+            <column name="ImporteSeguridadSocialEmpresario" precision="12" scale="0" />
+        </property>
+        <property name="desempleoEmpresario" type="java.lang.Float">
+            <column name="DesempleoEmpresario" precision="12" scale="0" />
+        </property>
+        <property name="importeDesempleoEmpresario" type="java.lang.Float">
+            <column name="ImporteDesempleoEmpresario" precision="12" scale="0" />
+        </property>
+        <property name="formacionEmpresario" type="java.lang.Integer">
+            <column name="FormacionEmpresario" />
+        </property>
+        <property name="importeFormacionEmpresario" type="java.lang.Integer">
+            <column name="ImporteFormacionEmpresario" />
+        </property>
+        <property name="accidentesTrabajoEmpresario" type="java.lang.Integer">
+            <column name="AccidentesTrabajoEmpresario" />
+        </property>
+        <property name="importeAccidentesTrabajoEmpresario" type="java.lang.Integer">
+            <column name="ImporteAccidentesTrabajoEmpresario" />
+        </property>
+        <property name="fogasaempresario" type="java.lang.Integer">
+            <column name="FOGASAEmpresario" />
+        </property>
+        <property name="importeFogasaempresario" type="java.lang.Integer">
+            <column name="ImporteFOGASAEMpresario" />
+        </property>
+        <property name="seguridadSocialTrabajador" type="java.lang.Integer">
+            <column name="SeguridadSocialTrabajador" />
+        </property>
+        <property name="importeSeguridadSocialTrabajador" type="java.lang.Integer">
+            <column name="ImporteSeguridadSocialTrabajador" />
+        </property>
+        <property name="desempleoTrabajador" type="java.lang.Integer">
+            <column name="DesempleoTrabajador" />
+        </property>
+        <property name="importeDesempleoTrabajador" type="java.lang.Integer">
+            <column name="ImporteDesempleoTrabajador" />
+        </property>
+        <property name="formacionTrabajador" type="java.lang.Integer">
+            <column name="FormacionTrabajador" />
+        </property>
+        <property name="importeFormacionTrabajador" type="java.lang.Integer">
+            <column name="ImporteFormacionTrabajador" />
+        </property>
+        <property name="brutoNomina" type="java.lang.Integer">
+            <column name="BrutoNomina" />
+        </property>
+        <property name="liquidoNomina" type="java.lang.Integer">
+            <column name="LiquidoNomina" />
+        </property>
+        <property name="costeTotalEmpresario" type="java.lang.Integer">
+            <column name="CosteTotalEmpresario" />
+        </property>
+        <property name="idTrabajador" type="java.lang.Integer">
+            <column name="IdTrabajador" />
+        </property>
+    </class>
+</hibernate-mapping>
