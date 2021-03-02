@@ -11,6 +11,7 @@ import java.util.Scanner;
 import modelo.HibernateUtil;
 import modelo.Nomina;
 import modelo.Trabajadorbbdd;
+import modelo.Empresas;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -30,7 +31,8 @@ public class Sistemas2_2021 {
         SessionFactory sf = null;
         Session sesion = null;
         Transaction tx = null;
-        
+        int empresa = 0;
+
         try{
             Scanner lector = new Scanner(System.in);
             String DNI = lector.nextLine();
@@ -44,14 +46,16 @@ public class Sistemas2_2021 {
             List<Trabajadorbbdd> listaResultado = query.list();
             int numeroNomina = 1;
             
+            /////////////////////////////////Apartado 1 
             for(Trabajadorbbdd tbd:listaResultado)
-            {
+            {   
                 System.out.println("Nombre: " + tbd.getNombre());
                 System.out.println("Primer Apellido: " + tbd.getApellido1());
                 System.out.println("Segundo Apellido: " + tbd.getApellido2());
                 System.out.println("NIF: " + tbd.getNifnie());
                 System.out.println("Categoria: " + tbd.getCategorias().getNombreCategoria());
                 System.out.println("Empresa: " + tbd.getEmpresas().getNombre());
+                empresa = tbd.getEmpresas().getIdEmpresa();
                 System.out.println("Fecha: " + tbd.getFechaAlta());
                 
                 for (Iterator<Nomina> it = tbd.getNominas().iterator(); it.hasNext(); ) {
@@ -66,15 +70,41 @@ public class Sistemas2_2021 {
                 System.out.println("**************************************");
             }
             
+            /////////////////////////////////Apartado 2
+            consultaHQL = "FROM Empresas e";
+            query = sesion.createQuery(consultaHQL);
+            List<Empresas> listaResultado2 = query.list();
+            if(empresa != 0){
+            for(Empresas et:listaResultado2){
+                  
+                  if(! (empresa == et.getIdEmpresa()) ){
+                      tx=sesion.beginTransaction();
+                      String nombreSin =et.getNombre();
+                      String aux = "";
+                      aux = et.getNombre();
+                      aux = aux + "2021";
+                      et.setNombre(aux);
+                      sesion.saveOrUpdate(et);
+                      tx.commit();
+                      System.out.println("Empresa "+nombreSin+" actualizada a "+aux);
+                  }
+
+              }
+            }
             if(listaResultado.size() == 0)
             {
                 System.out.println("No existe ningun trabajador con ese DNI");
             }
             
+            
             HibernateUtil.shutdown();
+         
+            
             
         }catch(Exception e){
+            
             System.out.println("Ha ocurrido un error: " + e.getMessage());
+            
         }
     }
     
