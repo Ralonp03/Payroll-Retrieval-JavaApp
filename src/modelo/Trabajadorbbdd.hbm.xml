@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Mar 1, 2021 11:14:13 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Trabajadorbbdd" table="trabajadorbbdd" catalog="nominas" optimistic-lock="version">
+        <id name="idTrabajador" type="int">
+            <column name="idTrabajador" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="50" />
+        </property>
+        <property name="apellido1" type="string">
+            <column name="Apellido1" length="50" />
+        </property>
+        <property name="apellido2" type="string">
+            <column name="Apellido2" length="50" />
+        </property>
+        <property name="column5" type="string">
+            <column name="`Column 5`" length="50" />
+        </property>
+        <property name="nifnie" type="string">
+            <column name="NIFNIE" length="50" />
+        </property>
+        <property name="email" type="string">
+            <column name="email" length="50" />
+        </property>
+        <property name="fechaAlta" type="string">
+            <column name="FechaAlta" length="50" />
+        </property>
+        <property name="codigoCuenta" type="string">
+            <column name="CodigoCuenta" length="50" />
+        </property>
+        <property name="iban" type="string">
+            <column name="IBAN" length="50" />
+        </property>
+        <property name="idEmpresa" type="java.lang.Integer">
+            <column name="IdEmpresa" />
+        </property>
+        <property name="idCategoria" type="java.lang.Integer">
+            <column name="IdCategoria" />
+        </property>
+    </class>
+</hibernate-mapping>
