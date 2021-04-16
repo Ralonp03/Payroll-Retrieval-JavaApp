@@ -150,6 +150,8 @@ public class SistemasPractica1 {
         } catch (IOException ex) {
             Logger.getLogger(SistemasPractica1.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        op.generarEmail();
     }
     
     

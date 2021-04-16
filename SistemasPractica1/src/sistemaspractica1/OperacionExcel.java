@@ -43,6 +43,8 @@ public class OperacionExcel {
     
     private List<Character> letras = new ArrayList<Character>();
     
+    private ArrayList<String> listaEmails = new ArrayList<String>();
+    
     private List nombres = new ArrayList();
     
     private List apellido1 = new ArrayList();
@@ -53,6 +55,8 @@ public class OperacionExcel {
     
     private List categoria = new ArrayList();
     
+    private List email = new ArrayList();
+    
     public OperacionExcel() throws IOException{
         this.creamosListaLetras();
         this.rellenaLista("Nombre");
@@ -60,6 +64,7 @@ public class OperacionExcel {
         this.rellenaLista("Apellido2");
         this.rellenaLista("Nombre empresa");
         this.rellenaLista("Categoria");
+        this.rellenaLista("Email");
     }
     
     public void creamosListaLetras(){
@@ -143,6 +148,9 @@ public class OperacionExcel {
           }else if(campo.equals("Categoria"))
           {
               this.categoria = cellTemp;
+          }else if(campo.equals("Email"))
+          {
+              this.email = cellTemp;
           }
       }
     
@@ -334,6 +342,99 @@ public class OperacionExcel {
         }
     }
     
+    public void generarEmail() throws IOException{
+                
+        for(int i = 0;i < this.email.size();i++)
+        {
+            if(this.email.get(i) != null)
+            {
+                if(this.nombres.get(i).toString().equals("") == false)
+                {
+                    String celda = this.email.get(i).toString();
+                    StringBuffer cadena = new StringBuffer();
+                    cadena.append(this.nombres.get(i).toString().charAt(0));
+                    cadena.append(this.apellido1.get(i).toString().charAt(0));
+                    if(this.apellido2.get(i).toString().equals("") == false)
+                    {
+                        cadena.append(this.apellido2.get(i).toString().charAt(0));
+                    }
+                    cadena.append("@"+this.empresa.get(i)+".com");
+                    this.listaEmails.add(cadena.toString());
+                }else
+                {
+                    this.listaEmails.add("");
+                }
+            }
+        }
+        
+        ArrayList<String> auxiliar = new ArrayList<String>();
+        
+        for(int i = 0;i < this.listaEmails.size();i++)
+        {
+            auxiliar.add(this.listaEmails.get(i));
+        }
+        
+        ArrayList<String> finalList = new ArrayList<String>();
+        
+        for(int i = 0;i < this.listaEmails.size();i++)
+        {
+            if(this.listaEmails.get(i).equals("") == false)
+            {
+            
+            StringBuffer cadena = new StringBuffer();
+            int contador = 0;
+            if(this.apellido2.get(i).toString().equals("") == false)
+            {
+                cadena.append(this.listaEmails.get(i).substring(0, 3));
+            }else if(this.apellido2.get(i).toString().equals("") == true)
+            {
+                cadena.append(this.listaEmails.get(i).substring(0, 2));
+            }
+            
+            int index = 0;
+            for(int j = 0;j < auxiliar.size();j++)
+            {
+                if(this.listaEmails.get(i).equals(auxiliar.get(j)) == true)
+                {
+                    contador++;
+                    index = j;
+                }
+            }
+            if(contador == 1)
+            {
+                cadena.append("00");
+            }else if(contador > 1)
+            {
+                if(i == index)
+                {
+                    cadena.append("0");
+                    cadena.append(contador-1);
+                }else if(i < index)
+                {
+                    cadena.append("00");
+                }
+            }
+            
+            if(this.apellido2.get(i).toString().equals("") == false)
+            {
+                cadena.append(this.listaEmails.get(i).substring(3));
+            }else if(this.apellido2.get(i).toString().equals("") == true)
+            {
+                cadena.append(this.listaEmails.get(i).substring(2));
+            }
+            finalList.add(cadena.toString());
+            
+            }else
+            {
+                finalList.add("");
+            }
+        }
+        
+        this.listaEmails = finalList;
+        
+        this.modificaExcelEmail();
+    }
+    
     public void rellenamosXML(ArrayList<Integer> idList,List<String> nombresErroneos,List<String> apellido1Erroneos,List<String> apellido2Erroneos,List<String> empresasErroneos,List<String> categoriasErroneos) throws ParserConfigurationException, FileNotFoundException, IOException, TransformerConfigurationException, TransformerException{
           // Archivo XML
           
@@ -442,4 +543,59 @@ public class OperacionExcel {
         //close the stream
         output_file.close();            
     }
+    
+     public void modificaExcelEmail() throws FileNotFoundException, IOException{
+                File f = new File("C:\\Users\\Juanc\\OneDrive\\Documentos\\NetBeansProjects\\SistemasPractica1\\resources\\SistemasInformacionII.xlsx");
+                InputStream inp = new FileInputStream(f);
+		XSSFWorkbook workBook = new XSSFWorkbook(inp);
+		XSSFSheet hs =  workBook.getSheetAt(2);
+		
+		Iterator rowIter = hs.rowIterator();
+                
+                int contador = 1, tope = 0, bloqueo = 0, k = 0, l = 0, index = 0;
+                
+		while(rowIter.hasNext()) 
+		{
+			XSSFRow hr = (XSSFRow) rowIter.next();
+			Iterator iterator = hr.cellIterator();
+				while(iterator.hasNext())
+				{
+					XSSFCell hcel = (XSSFCell) iterator.next();
+                                        if(hcel.toString().equals("Email") && bloqueo == 0)
+                                        {
+                                            tope = contador;
+                                            bloqueo = 1;
+                                        }
+                                        if(bloqueo == 1 && k == 1)
+                                        {
+                                            if(l == 0)
+                                            {
+                                                if(hr.getCell(tope-1) == null && index < this.listaEmails.size())
+                                                {
+                                                    hr.createCell(tope-1);
+                                                    hr.getCell(tope-1).setCellValue(this.listaEmails.get(index));    
+                                                    index++;
+                                                    l = 1;
+                                                    break;
+                                                }else if(index < this.listaEmails.size())
+                                                {
+                                                    hr.getCell(tope-1).setCellValue(this.listaEmails.get(index));    
+                                                    index++;
+                                                    l = 1; 
+                                                }
+                                            }
+                                        }
+                                        contador++;
+				}
+                        k = 1;
+                        l = 0;
+		}
+        inp.close();
+        //Open FileOutputStream to write updates
+        FileOutputStream output_file = new FileOutputStream(new File("C:\\Users\\Juanc\\OneDrive\\Documentos\\NetBeansProjects\\SistemasPractica1\\resources\\SistemasInformacionII.xlsx"));
+        //write changes
+        workBook.write(output_file);
+        //close the stream
+        output_file.close();            
+     }
 }
