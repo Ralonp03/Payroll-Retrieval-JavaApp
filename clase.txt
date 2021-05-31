@@ -1,0 +1,44 @@
+ try{
+
+        
+    SessionFactory sf = HibernateUtil.getSessionFactory();
+    Session session = sf.openSession();
+    String querySQL = "FROM Trabajadorbbdd t WHERE t.empresas.idEmpresa=:param1";
+    
+    Query query = session.createQuery(querySQL);
+    query.setParameter("param1", 31);
+    List<Trabajadorbbdd> lista = query.list();
+    
+    for(Trabajadorbbdd t : lista){
+        System.out.println(t.getNombre());
+        Set<Nomina> conjunto = t.getNominas();
+        for(Nomina n : conjunto){
+            System.out.println(n.getTrabajadorbbdd().getIdTrabajador());
+            Transaction tx1 = session.beginTransaction();
+            String quer1 = "DELETE Nomina k WHERE k.trabajadorbbdd.idTrabajador =:param4";
+            query = session.createQuery(quer1).setParameter("param4", t.getIdTrabajador());
+            query.executeUpdate();
+            session.saveOrUpdate(n);
+            tx1.commit();
+        }
+        Transaction tx = session.beginTransaction();
+        String quer1 = "DELETE Trabajadorbbdd k WHERE k.idTrabajador =:param4";
+        query = session.createQuery(quer1).setParameter("param4", t.getIdTrabajador());
+        query.executeUpdate();
+        session.saveOrUpdate(t);
+        tx.commit();
+       
+
+    }
+    Transaction tx = session.beginTransaction();
+    String sql = "DELETE Empresas e WHERE e.idEmpresa =:param1";
+    Query q = session.createQuery(sql).setParameter("param1", 31);
+    q.executeUpdate();
+    tx.commit(); 
+    HibernateUtil.shutdown();
+
+    
+    }catch(Exception e){
+        System.out.println(e.getMessage());
+        
+    }
